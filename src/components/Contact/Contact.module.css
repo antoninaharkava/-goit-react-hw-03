@@ -1,0 +1,14 @@
+.info {
+    /* display: flex; */
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .infoText {
+    gap: 5px;
+    display: flex;
+  }
+  
+  .infoText > p {
+    font-size: 18px;
+  }
