@@ -1,33 +1,5 @@
-
 .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  
-  .listItem {
-    display: flex;
-    align-items: center; 
-    justify-content: space-between; 
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-  
-  
-  .btn {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  
-  .btn:hover {
-    background-color: #e0e0e0;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}

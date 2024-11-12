@@ -1,35 +1,19 @@
-import Contact from "../Contact/Contact";
+import Contact from "../Contact/Contact.jsx";
+
 import css from "./ContactList.module.css";
 
-const ContactList = ({
-  users,
-  onDeleteProfile,
-}) => {
+function ContactList({ contacts, deleteContact }) {
   return (
-    <div>
-      <ul className={css.list}>
-        {users.map((user) => {
-          return (
-            <li
-              className={css.listItem}
-              key={user.id}
-            >
-              <Contact person={user} />
-              <button
-                className={css.btn}
-                type="button"
-                onClick={() =>
-                  onDeleteProfile(user.id)
-                }
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <ul className={css.list}>
+      {contacts.map((contact) => {
+        return (
+          <li key={contact.id}>
+            <Contact contact={contact} deleteContact={deleteContact} />
+          </li>
+        );
+      })}
+    </ul>
   );
-};
+}
 
 export default ContactList;

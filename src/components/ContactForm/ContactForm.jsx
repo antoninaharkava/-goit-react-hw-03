@@ -1,80 +1,65 @@
-import { Formik, Form, Field } from "formik";
 import css from "./ContactForm.module.css";
+
+import { useId } from "react";
+import { nanoid } from "nanoid";
 import * as Yup from "yup";
-import { ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
-const ContactForm = ({ onAddProfile }) => {
-  const handleSubmit = (values, actions) => {
-    const profileObject = {
-      name: values.profileName,
-      number: values.profileNumber,
-    };
-    onAddProfile(profileObject);
+const contactSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  number: Yup.string()
+    .min(3, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+});
+
+function ContactForm({ getContact }) {
+  const userNameId = useId();
+  const userTelId = useId();
+
+  function handleSubmit(values, actions) {
+    const newContactWithId = { ...values, id: nanoid() };
+    getContact(newContactWithId);
     actions.resetForm();
-  };
-
-  const FeedbackSchema = Yup.object().shape({
-    profileName: Yup.string()
-      .min(3, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    profileNumber: Yup.string()
-      .min(3, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-  });
-
-  const INITIAL_VALUES = {
-    profileName: "",
-    profileNumber: "",
-  };
+  }
 
   return (
-    <>
-      <Formik
-        initialValues={INITIAL_VALUES}
-        onSubmit={handleSubmit}
-        validationSchema={FeedbackSchema}
-      >
-        <Form className={css.container}>
-          <label className={css.label}>
-            <span>Name</span>
-            <Field
-              className={css.input}
-              type="text"
-              name="profileName"
-              required
-            />
-            <ErrorMessage
-              className={css.ErrorMessage}
-              name="profileName"
-              component="span"
-            />
-          </label>
-          <label className={css.label}>
-            <span>Number</span>
-            <Field
-              className={css.input}
-              type="text"
-              name="profileNumber"
-              required
-            />
-            <ErrorMessage
-              className={css.ErrorMessage}
-              name="profileNumber"
-              component="span"
-            />
-          </label>
-          <button
-            className={css.submitBtn}
-            type="submit"
-          >
-            Add contact
-          </button>
-        </Form>
-      </Formik>
-    </>
+    <Formik
+      initialValues={{
+        name: "",
+        number: "",
+      }}
+      onSubmit={handleSubmit}
+      validationSchema={contactSchema}
+    >
+      <Form className={css.form}>
+        <div className={css.inputWrapper}>
+          <label htmlFor={userNameId}>Name</label>
+          <Field type="text" name="name" id={userNameId}></Field>
+          <ErrorMessage
+            className={css.errorMessage}
+            name="name"
+            component="span"
+          />
+        </div>
+        <div className={css.inputWrapper}>
+          <label htmlFor={userTelId}>Number</label>
+          <Field type="tel" name="number" id={userTelId}></Field>
+          <ErrorMessage
+            className={css.errorMessage}
+            name="number"
+            component="span"
+          />
+        </div>
+        <button className={css.btn} type="submit">
+          Add contact
+        </button>
+      </Form>
+    </Formik>
   );
-};
+}
 
 export default ContactForm;
